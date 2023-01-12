@@ -1,0 +1,58 @@
+import random
+
+words = ["python", "java", "swift", "javascript"]
+gamesWon = 0
+gamesLost = 0
+
+print("H A N G M A N")
+
+while True:
+    action = input('Type "play" to play the game, "results" to show the scoreboard, and "exit" to quit: ')
+    if action == 'exit':
+        break
+    elif action == 'results':
+        print(f"You won: {gamesWon} times.")
+        print(f"You lost: {gamesLost} times.")
+    elif action == 'play':
+        openedWord = random.choice(words)
+        guessedWord = '-' * (len(openedWord))
+        attempts = 8
+        guessedLetters = []
+
+        while True:
+            print()
+            print(guessedWord)
+    
+            if openedWord == guessedWord:
+                print(f"You guessed the word {openedWord}!")
+                print("You survived!")
+                gamesWon += 1
+                break
+        
+            guessedLetter = input("Input a letter: ")
+
+            if len(guessedLetter) != 1:
+                print("Please, input a single letter.")
+                continue
+            elif not guessedLetter.isalpha() or not guessedLetter.islower():
+                print("Please, enter a lowercase letter from the English alphabet.")
+                continue
+    
+            if guessedLetter in guessedLetters:
+                print("You've already guessed this letter.")
+                continue
+        
+            guessedLetters.append(guessedLetter)
+    
+            if guessedLetter in openedWord:
+                for index, character in enumerate(openedWord):
+                    if character == guessedLetter:
+                        guessedWord = guessedWord[:index] + character + guessedWord[index+1:]
+            else:
+                print("That letter doesn't appear in the word.")
+                attempts -= 1
+            if attempts == 0:
+                print()
+                print("You lost!")
+                gamesLost += 1
+                break
